@@ -6,6 +6,6 @@ tcpServer.connect()
 
 
 
-
-httpServer.listen(3001)
+const port = process.env.PORT || 3001
+httpServer.listen(port)
 tcpServer.listen(8080)
