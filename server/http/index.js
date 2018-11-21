@@ -3,24 +3,12 @@ const http = require('http')
 const bodyParser = require('body-parser')
 const app = express()
 
-
-
+app.use(express.static('client/build'))
 app.use(bodyParser.json())
 
-app.get('/', (req,res) => {
-  res.sendFile(__dirname + '/index.html')
-})
-
-app.post('/post', (req, res) => {
-  console.log('post data:', req.body)
-  res.status(200).send({
-    success: true,
-    result: req.body
-  })
-
-  
-
-})
+app.get('*', (req, res) => res.status(200).send({
+  message: 'Welcome to VCount project.',
+}));
 
 const server = http.Server(app)
 
