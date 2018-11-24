@@ -6,7 +6,7 @@ if (process.env.DATABASE_URL) {
     dialect: "postgres",
     protocol: "postgres",
     port: 5432,
-    host: "deklarant.herokuapp.com"
+    host: "vcount.herokuapp.com"
   });
 } else {
   sequelize = new Sequelize('vcount', 'postgres', '123456789',  {
