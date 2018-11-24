@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 
 import Routines from '../routines'
-import TokenStorage from 'common/TokenStorage'
+import TokenStorage from '../../../TokenStorage'
 
 function * trigger (api, action) {
   const { request } = action.payload

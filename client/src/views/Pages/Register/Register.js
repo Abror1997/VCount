@@ -1,7 +1,42 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
+import axios from 'axios'
+import {connect} from 'react-redux'
+
+const login = () => {
+  return {
+    type: 'USER_LOGIN',
+    payload: {
+      isAuth: true
+    }
+  }
+}
+
 class Register extends Component {
+
+
+  handleCreate() {
+    axios.post('http://localhost:3001/api/user/register', {
+      email: 'a.xalilov1997@gmail.com',
+      password: 'qwerty12345'
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        console.log('REGISTER res', res.data)
+        if(res.data.success) {
+          this.props.login()
+          this.props.history.push('/dashboard')
+        }
+      })
+      .catch(err => {
+        console.log('REGISTER err', err)
+      })
+  }
+
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -43,7 +78,7 @@ class Register extends Component {
                       </InputGroupAddon>
                       <Input type="password" placeholder="Repeat password" autoComplete="new-password" />
                     </InputGroup>
-                    <Button color="success" block>Create Account</Button>
+                    <Button onClick={() => this.handleCreate()} color="success" block>Create Account</Button>
                   </Form>
                 </CardBody>
                 <CardFooter className="p-4">
@@ -65,4 +100,10 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const dispatchActionsToProps = dispatch => {
+  return {
+    login: () => dispatch(login())
+  }
+}
+
+export default connect(null, dispatchActionsToProps)(Register);

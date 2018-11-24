@@ -1,5 +1,5 @@
-const httpServer = require('./http')
-const tcpServer = require('./tcp')
+const httpServer = require('./httpServer')
+const tcpServer = require('./tcpServer')
 
 httpServer.connect()
 tcpServer.connect()

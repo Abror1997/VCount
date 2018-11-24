@@ -1,20 +1,15 @@
 const staticsBaseURL = 'http://example.com'
 
-const urlS = {
-  test: 'https://jsonplaceholder.typicode.com/',
-  development: 'localhost:3001/',
-  production: 'https://vcount.herokuapp.com/'
-}
-
 export default {
   staticsBaseURL,
 
   apisauce: {
-    baseURL: 'localhost:3001/',
+    baseURL: 'http://localhost:3001/api/',
+
     headers: {
       'Accept': 'application/json',
-      'Cache-Control': 'no-cache',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      // 'Authorization': 'Token 0767d17347e3e299ba67cebd0654986a58989ea3'
     }
   },
 }

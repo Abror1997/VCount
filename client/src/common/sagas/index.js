@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects'
-import { routinesWatcherSaga } from 'redux-saga-routines'
+import {routinesWatcherSaga } from 'redux-saga-routines/dist'
 
 import { Api } from '../api'
 

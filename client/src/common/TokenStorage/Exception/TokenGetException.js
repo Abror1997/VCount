@@ -1,4 +1,4 @@
-import Exception from 'common/api/Exception/Exception'
+import Exception from '../../api/Exception/ClientException'
 
 class TokenGetException extends Exception {
 

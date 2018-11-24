@@ -7,8 +7,8 @@ import Exception from './Exception'
 import Routines from './routines'
 
 // api calls
-import Merchant from './Merchant'
 import User from './User'
+import Admin from './Admin';
 
 const create = () => {
     const api = apisauce.create(config.apisauce)
@@ -21,7 +21,7 @@ const create = () => {
     }
 
     return {
-        merchant: Merchant(api),
+        admin: Admin(api),
         user: User(api),
         setToken: (token) => {
             api.setHeader('Authorization', 'Token ' + token)
