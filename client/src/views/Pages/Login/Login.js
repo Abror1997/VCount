@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux'
 
-import axios from 'axios'
+import {connect} from 'react-redux'
+import actions from '../../../actions'
+import {withRouter} from 'react-router-dom'
 
 class Login extends Component {
 
@@ -12,20 +12,13 @@ class Login extends Component {
     password: ''
   }
 
-  handleLogin() {
-    console.log('handleLogin')
-    const {email, password} = this.state
-    axios.post('http://localhost:3001/api/user/login', {
-      email,
-      password
-    })
-      .then(res => {
-        console.log('login res', res.data)
-        if(res.data.isAuth) this.props.history.push('/dashboard')
-      })
-      .catch(err => {
-        console.log('login err', err)
-      })
+  toRegisterHandler = () =>{
+    this.props.history.push('/register')
+  }
+
+  loginHandler = () => {
+    console.log('loginHandler')
+    this.props.login(this.state)
   }
 
   handleInputChange = (value, type) => {
@@ -36,9 +29,17 @@ class Login extends Component {
     e.preventDefault()
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps)
+    if(nextProps.data.isAuth) {
+      const id = this.props.location.state
+      this.props.history.push(`/dashboard/${id}`)
+    }
+  }
+
   render() {
-    console.log('TEST', this.props)
-    console.log('STATE', this.state)
+    console.log('LOGIN PROPS', this.props)
+    console.log('LOGIN STATE', this.state)
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -57,6 +58,7 @@ class Login extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input 
+                          defaultValue={this.props.location.state && this.props.location.state.username || ''}
                           type="text" placeholder="Username" autoComplete="username"
                           onChange={(e) => this.handleInputChange(e.target.value, 'email')} 
                         />
@@ -74,7 +76,7 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button onClick={() => this.handleLogin()} color="primary" className="px-4">Login</Button>
+                          <Button onClick={this.loginHandler} color="primary" className="px-4">Login</Button>
                         </Col>
                         <Col xs="6" className="text-right">
                           <Button color="link" className="px-0">Forgot password?</Button>
@@ -89,11 +91,9 @@ class Login extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                      <Link to='/register'>
-                        <Button color="primary" className="mt-3" active>
+                        <Button onClick={this.toRegisterHandler} color="primary" className="mt-3" active>
                           Register Now!
                         </Button>
-                      </Link>
                     </div>
                   </CardBody>
                 </Card>
@@ -106,4 +106,22 @@ class Login extends Component {
   }
 }
 
-export default connect()(Login);
+const mapStateToProps = state => {
+
+  return {
+    loading: state.login.loading,
+    error: state.login.error,
+    data: state.login.data
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  
+  return {
+    login: (data) => dispatch(actions.user.login(data))
+  }
+}
+
+Login = connect(mapStateToProps, mapDispatchToProps)(Login)
+
+export default withRouter(Login)

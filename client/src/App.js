@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter, BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.scss';
 
 // Containers
@@ -12,7 +12,7 @@ import { Login, Page404, Page500, Register } from './views/Pages';
 class App extends Component {
   render() {  
     return (
-      <Router>
+      <BrowserRouter>
         <Switch>
           <Route exact path="/login" name="Login Page" component={Login} />
           <Route exact path="/register" name="Register Page" component={Register} />
@@ -21,7 +21,7 @@ class App extends Component {
           <Route path="/" name="Home" component={DefaultLayout} />
           <Route component={Page404}/>
         </Switch>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

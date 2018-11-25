@@ -35,11 +35,11 @@ exports.register = (req, res) => {
         const password = bcrypt.hashSync(req.body.password, SALT)
         User.create({...req.body, password})
           .then(user => {
-            const {id, email} = user
+            const {id, username} = user
             res.status(200).send({
               success: true,
               id,
-              email
+              username
             })
           })
         .catch(error => {

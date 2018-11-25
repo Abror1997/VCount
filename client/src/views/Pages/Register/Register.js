@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Label } from 'reactstrap';
 
 import {connect} from 'react-redux'
 import actions from '../../../actions'
+import {withRouter} from 'react-router-dom'
 
 class Register extends Component {
 
@@ -19,8 +20,15 @@ class Register extends Component {
   }
 
   createHandler = () => {
-    console.log('createHandler')
+    console.log('createHandler', this.state)
     this.props.register(this.state)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const data = nextProps.data
+    if(data.id) {
+      this.props.history.push('/login', { id:data.id, username: data.username })
+    }
   }
 
   render() {
@@ -34,6 +42,11 @@ class Register extends Component {
                   <Form>
                     <h1>Register</h1>
                     <p className="text-muted">Create your account</p>
+                    <Button
+                      className="testButton" 
+                      onClick={() => this.props.register(this.state)}
+                    >Click</Button>
+                    {this.props.loading ? (<Label>Loading</Label>):null}
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -98,10 +111,21 @@ class Register extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const {loading, error, data} = state.register
+  return {
+    loading,
+    error,
+    data
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     register: (data) => dispatch(actions.user.register(data))
   }
 }
 
-export default connect(null, mapDispatchToProps)(Register);
+Register = connect(mapStateToProps, mapDispatchToProps)(Register);
+
+export default withRouter(Register)

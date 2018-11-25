@@ -6,7 +6,7 @@ const initialState = {
   error: null,
   data: {
     id: undefined,
-    email: undefined
+    username: undefined
   }
 }
 
@@ -28,7 +28,7 @@ export default (state=initialState, action) => {
       }
     }
     case register.success: {
-      const {id, email} = action.payload
+      const {id, username} = action.payload
       return {
         ...state,
         loading: false,
@@ -36,7 +36,7 @@ export default (state=initialState, action) => {
         data: {
           ...state.data,
           id,
-          email
+          username
         }
       }
     }

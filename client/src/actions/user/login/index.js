@@ -3,13 +3,9 @@ import types from './types'
 import axios from 'axios'
 
 export default (data) => {
-  
+
   return dispatch => {
-    dispatch(() => {
-      return {
-        type: types.started
-      }
-    });
+    dispatch(started())
 
     axios.post('http://localhost:3001/api/user/login', data, {
       headers: {
@@ -17,20 +13,30 @@ export default (data) => {
       }
     })
       .then(response => {
-        dispatch(() => {
-          return {
-            type: types.success,
-            payload: response.data
-          }
-        })
+        console.log('response', response.data)
+        if(response.data.isAuth)
+          dispatch(success(response))
+        else
+          dispatch(failure(response.data))
       })
       .catch(error => {
-        return {
-          type: types.failure,
-          payload: {
-            error
-          }
-        }
+        dispatch(failure(error))
       })
   }  
 }
+
+const started = () => ({
+  type: types.started
+})
+
+const success = response => ({
+  type: types.success,
+  payload: response.data  
+})
+
+const failure = error => ({
+  type: types.failure,
+  payload: {
+    error
+  }
+})
