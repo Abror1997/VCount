@@ -16,10 +16,6 @@ if(process.env.NODE_ENV === 'production'){
   })
 }
 
-app.get('/', (req,res) => {
-  res.sendFile(__dirname + '/index.html')
-})
-
 app.post('/api/device/data/send', (req, res) => {
   // console.log('data', req.body)
   console.log('device id: ', req.body.id)

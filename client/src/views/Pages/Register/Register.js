@@ -1,40 +1,26 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
-import axios from 'axios'
 import {connect} from 'react-redux'
-
-const login = () => {
-  return {
-    type: 'USER_LOGIN',
-    payload: {
-      isAuth: true
-    }
-  }
-}
+import actions from '../../../actions'
 
 class Register extends Component {
 
+  state = {
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  }
 
-  handleCreate() {
-    axios.post('http://localhost:3001/api/user/register', {
-      email: 'a.xalilov1997@gmail.com',
-      password: 'qwerty12345'
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        console.log('REGISTER res', res.data)
-        if(res.data.success) {
-          this.props.login()
-          this.props.history.push('/dashboard')
-        }
-      })
-      .catch(err => {
-        console.log('REGISTER err', err)
-      })
+  inputHandler(type, value) {
+    console.log('inputHandler')
+    this.setState({[type]: value})
+  }
+
+  createHandler = () => {
+    console.log('createHandler')
+    this.props.register(this.state)
   }
 
   render() {
@@ -54,13 +40,19 @@ class Register extends Component {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Username" autoComplete="username" />
+                      <Input
+                        onChange={event => this.inputHandler('username', event.target.value)}  
+                        type="text" placeholder="Username" autoComplete="username" 
+                      />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>@</InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Email" autoComplete="email" />
+                      <Input 
+                        onChange={event => this.inputHandler('email', event.target.value)} 
+                        type="text" placeholder="Email" autoComplete="email"
+                      />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -68,7 +60,10 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Password" autoComplete="new-password" />
+                      <Input
+                        onChange={event => this.inputHandler('password', event.target.value)}  
+                        type="password" placeholder="Password" autoComplete="new-password" 
+                      />
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
@@ -76,9 +71,12 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Repeat password" autoComplete="new-password" />
+                      <Input 
+                        onChange={event => this.inputHandler('confirmPassword', event.target.value)} 
+                        type="password" placeholder="Repeat password" autoComplete="new-password" 
+                      />
                     </InputGroup>
-                    <Button onClick={() => this.handleCreate()} color="success" block>Create Account</Button>
+                    <Button onClick={this.createHandler} color="success" block>Create Account</Button>
                   </Form>
                 </CardBody>
                 <CardFooter className="p-4">
@@ -100,10 +98,10 @@ class Register extends Component {
   }
 }
 
-const dispatchActionsToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
-    login: () => dispatch(login())
+    register: (data) => dispatch(actions.user.register(data))
   }
 }
 
-export default connect(null, dispatchActionsToProps)(Register);
+export default connect(null, mapDispatchToProps)(Register);

@@ -16,8 +16,8 @@ class Login extends Component {
     console.log('handleLogin')
     const {email, password} = this.state
     axios.post('http://localhost:3001/api/user/login', {
-      email: 'a.xalilov1997@gmail.com',
-      password: 'qwerty12345'
+      email,
+      password
     })
       .then(res => {
         console.log('login res', res.data)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { Container, Button } from 'reactstrap';
 
 import {
   AppAside,
@@ -22,19 +22,7 @@ import DefaultAside from './DefaultAside';
 import DefaultFooter from './DefaultFooter';
 import DefaultHeader from './DefaultHeader';
 
-import {connect} from 'react-redux'
-
 class DefaultLayout extends Component {
-
-  state = {
-    loggedIn: true
-  }
-
-  componentWillMount() {
-    // if(!this.props.isAuth) {
-    //   this.props.history.push('/login')
-    // }
-  }
 
   render() {
     return (
@@ -77,10 +65,4 @@ class DefaultLayout extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    // isAuth: state.user.login.isAuth
-  }
-}
-
-export default connect(mapStateToProps)(DefaultLayout);
+export default DefaultLayout;
