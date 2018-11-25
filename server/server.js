@@ -1,11 +1,11 @@
 const httpServer = require('./httpServer')
-const tcpServer = require('./tcpServer')
+// const tcpServer = require('./tcpServer')
 
 httpServer.connect()
-tcpServer.connect()
+// tcpServer.connect()
 
 
 
 const port = process.env.PORT || 3001
 httpServer.listen(port)
-tcpServer.listen(8080)
+// tcpServer.listen(8080)
