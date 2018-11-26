@@ -8,16 +8,11 @@ import {withRouter} from 'react-router-dom'
 class Login extends Component {
 
   state = {
-    email: '',
+    username: '',
     password: ''
   }
 
-  toRegisterHandler = () =>{
-    this.props.history.push('/register')
-  }
-
   loginHandler = () => {
-    console.log('loginHandler')
     this.props.login(this.state)
   }
 
@@ -29,16 +24,19 @@ class Login extends Component {
     e.preventDefault()
   }
 
+  componentWillMount() {
+    let user = this.props.location.state && this.props.location.state.username
+    if(user)
+      this.setState({username: this.props.location.state.username})
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps)
     if(nextProps.data.isAuth) {
-      const id = this.props.location.state
-      this.props.history.push(`/dashboard/${id}`)
+      this.props.history.push(`/dashboard`)
     }
   }
 
   render() {
-    console.log('LOGIN PROPS', this.props)
     console.log('LOGIN STATE', this.state)
     return (
       <div className="app flex-row align-items-center">
@@ -60,7 +58,7 @@ class Login extends Component {
                         <Input 
                           defaultValue={this.props.location.state && this.props.location.state.username || ''}
                           type="text" placeholder="Username" autoComplete="username"
-                          onChange={(e) => this.handleInputChange(e.target.value, 'email')} 
+                          onChange={(e) => this.handleInputChange(e.target.value, 'username')} 
                         />
                       </InputGroup>
                       <InputGroup className="mb-4">
@@ -91,7 +89,7 @@ class Login extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                        <Button onClick={this.toRegisterHandler} color="primary" className="mt-3" active>
+                        <Button onClick={() => this.props.history.push('/register')} color="primary" className="mt-3" active>
                           Register Now!
                         </Button>
                     </div>

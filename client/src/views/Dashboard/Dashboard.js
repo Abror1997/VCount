@@ -480,7 +480,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log('props', this.props)
+    console.log('Dashboard props', this.props)
     return (
       <div className="animated fadeIn">
         <Row>

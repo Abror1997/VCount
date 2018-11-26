@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container, Button } from 'reactstrap';
 
+import {connect} from 'react-redux'
+import actions from '../../actions'
+import {withRouter} from 'react-router-dom'
+
 import {
   AppAside,
   AppBreadcrumb,
@@ -24,7 +28,26 @@ import DefaultHeader from './DefaultHeader';
 
 class DefaultLayout extends Component {
 
+  componentWillMount() {
+    // this.props.auth(this.props.token)
+    console.log('DefaultLayout componentWillMount', this.props)
+    if(!this.props.token) {
+      this.props.history.push('/login')
+    } else {
+      return (<Redirect from="/" to="/dashboard"/>)
+    }
+  }
+
+  componentDidMount() { 
+    console.log('DefaultLayout componentDidMount', this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('DefaultLayout componentWillReceiveProps', nextProps)
+  }
+
   render() {
+    console.log('DefaultLayout render', this.props)
     return (
       <div className="app">
         <AppHeader fixed>
@@ -49,7 +72,7 @@ class DefaultLayout extends Component {
                       : (null);
                   },
                 )}
-                <Redirect from="/" to="/login" />
+                {/* <Redirect from="/" to="/dashboard" /> */}
               </Switch>
             </Container>
           </main>
@@ -65,4 +88,19 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+const mapStateToProps = state => {
+  return {
+    token: state.login.data.token,
+    user: state.auth.data
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    auth: (token) => dispatch(actions.user.auth(token))
+  }
+}
+
+DefaultLayout = connect(mapStateToProps, mapDispatchToProps)(DefaultLayout)
+
+export default withRouter(DefaultLayout);

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const SALT = 8
-const SECRET = 'SECRET'
+const SECRET = 'VCountUZ:SECRET'
 
 
 // exports.addNotice = (req, res) => {
@@ -59,7 +59,7 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
-  User.findOne({where: {email: req.body.email}})
+  User.findOne({where: {username: req.body.username}})
     .then(user => {
       if(!user) {
         res.status(200).send({
@@ -86,6 +86,45 @@ exports.login = (req, res) => {
         error
       })
     })
+}
+
+exports.auth = (req, res) => {
+  const token = req.headers.auth
+  console.log('auth token', token)
+  if(token) {
+    jwt.verify(token, SECRET, (err,decode) => {
+      console.log('token verification', err, decode)
+      User.findOne( {where: {id: decode}} )
+        .then(user => {
+          if(user) {
+            const {id, email, username} = user
+            res.status(200).send({
+              success: true,
+              id,
+              email,
+              username
+            })
+          } else {
+            res.status(401).send({
+              success: false,
+              message: 'uset not found'
+            })
+          }
+        })
+        .catch(error => {
+          res.status(401).send({
+            success: false,
+            message: 'auth failed',
+            error
+          })
+        })
+    })
+  } else {
+    res.status(401).send({
+      success: false,
+      message: 'token not found'
+    })
+  }
 }
 
 // exports.get = (req, res) => {
