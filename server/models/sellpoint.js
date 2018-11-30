@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-	const Company = sequelize.define(
-		'company',
+	const Sellpoint = sequelize.define(
+		'sellpoint',
 		{
 			info: {
 				type: DataTypes.JSONB,
@@ -23,11 +23,15 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	);
 
-	Company.associate = models => {
-		Company.hasMany(models.Sellpoint, {
-			foreignKey: 'company'
+	Sellpoint.associate = models => {
+		Sellpoint.hasMany(models.Device, {
+			foreignKey: 'sellpoint'
+		});
+		Sellpoint.belongsTo(models.User, {
+			as: 'Owner',
+			foreignKey: 'owner'
 		});
 	};
 
-	return Company;
+	return Sellpoint;
 };

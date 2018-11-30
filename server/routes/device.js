@@ -1,6 +1,6 @@
-const Device = require('../controllers/device')
+const Device = require('../controllers/device');
+const auth = require('../middleware/auth');
 
-module.exports = function(app) {
-  
-  app.post('/api/device/register', Device.register)
-}
+module.exports = app => {
+	app.post('/api/device/register', auth, Device.register);
+};

@@ -1,45 +1,46 @@
 const net = require('net');
-const {User} = require('./models')
+
+const Device = require('./controllers/device');
+const { checkJSON } = require('./helpers/validation');
 
 const server = net.createServer(socket => {
-  const json = {
-    id: 123,
-    data: {
-      input: 'some input',
-      output: 'some output'
-    }
-  }
-  socket.write('You are now connected to tcp server\n' + JSON.stringify(json) + '\n');
-  // socket.pipe(socket);
-  const {localAddress, localPort, remoteAddress, remotePort} = socket
-  console.log('loc_addr, loc_port', localAddress, localPort)
-  console.log('rem_addr, rem_port', remoteAddress, remotePort)
+	socket.write('connected\n');
 
-  socket.on('data', (data) => {
-    console.log('data', data.toString())
-    const response = {
-      message: 'data received',
-      data: data.toString()
-    }
-    socket.write(JSON.stringify(response) + '\n')
-  })
-})
+	const { localAddress, localPort, remoteAddress, remotePort } = socket;
 
-// const createUser = (data) => {
-//   let json = data.to
-// }
+	console.log('server: address, port', localAddress, localPort);
+	console.log('client: address, port', remoteAddress, remotePort);
 
-const listen = (port) => {
-  server.listen(port, () => {
-    console.log('tcp server is running on port:', port)
-  })
-}
+	socket.on('data', data => {
+		let response = undefined;
+		const jsonData = checkJSON(data);
 
-const getData = (data) => {
-  console.log('getData: ', data)
-}
+		if (jsonData.success) {
+			console.log('dataType success');
+			response = {
+				success: true,
+				message: 'valid type'
+			};
+			Device.receiveData(jsonData.result);
+		} else {
+			console.log('dataType error', jsonData.error);
+			response = {
+				success: false,
+				message: 'invalid type'
+			};
+		}
+
+		socket.write(JSON.stringify(response) + '\n');
+	});
+});
+
+const listen = port => {
+	server.listen(port, () => {
+		console.log('tcp server is running on port:', port);
+	});
+};
 
 module.exports = {
-  connect: () => server,
-  listen
-}
+	connect: () => server,
+	listen
+};

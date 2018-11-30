@@ -3,21 +3,21 @@ import types from './types'
 import axios from 'axios'
 
 export default (data) => {
-
-  return dispatch => {
+  
+  return (dispatch) => {
     dispatch(started())
+    
+    const token = localStorage.getItem('token')
 
-    axios.post('http://localhost:3001/api/user/login', data, {
+    axios.post('http://localhost:3001/api/company/register', data, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'auth': token
       }
     })
       .then(response => {
-        console.log('response', response.data)
-        if(response.data.isAuth) {
-          localStorage.setItem('token', response.data.token)
+        if(response.data.success)
           dispatch(success(response))
-        }
         else
           dispatch(failure(response.data))
       })

@@ -42,10 +42,6 @@ class Register extends Component {
                   <Form>
                     <h1>Register</h1>
                     <p className="text-muted">Create your account</p>
-                    <Button
-                      className="testButton" 
-                      onClick={() => this.props.register(this.state)}
-                    >Click</Button>
                     {this.props.loading ? (<Label>Loading</Label>):null}
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -122,7 +118,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    register: (data) => dispatch(actions.user.register(data))
+    register: (data) => dispatch(actions.user.register({info:data}))
   }
 }
 

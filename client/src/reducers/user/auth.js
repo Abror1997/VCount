@@ -12,15 +12,16 @@ const initialState = {
 }
 
 export default (state=initialState, action) => {
-  
   switch(action.type) {
     case auth.started: {
+      console.log('auth reducer started')
       return {
         ...state,
         loading: true
       }
     }
     case auth.failure: {
+      console.log('auth reducer failure')      
       const {error} = action.payload
       return {
         ...state,
@@ -29,6 +30,7 @@ export default (state=initialState, action) => {
       }
     }
     case auth.success: {
+      console.log('auth reducer success')
       const {id, email, username} = action.payload
       return {
         ...state,
@@ -42,7 +44,9 @@ export default (state=initialState, action) => {
         }
       }
     }
-    default:
+    default: {
+      console.log('auth reducer default')      
       return state
+    }
   }
 }

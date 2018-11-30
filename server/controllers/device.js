@@ -1,43 +1,55 @@
-const models = require('../models')
-const {Device} = models
+const models = require('../models');
+const { Sellpoint, Device, Count } = models;
 
 exports.register = (req, res) => {
-  Device.find({where: {
-    data: {
-      id: req.body.id
-    }
-  }})
-    .then(device => {
-      if(!!device) {
-        res.status(200).send({
-          success: false,
-          message: 'device already exists',
-        })
-      } else {
-        Device.create({data: req.body})
-          .then(result => {
-            result.createCompany({name: 'vcount.uz'})
-              .then(x => {
-                res.status(200).send({
-                  success: true,
-                  message: 'device registered successfully',
-                  result
-                })
-              })
-          })
-          .catch(err => {
-            res.status(200).send({
-              success: false,
-              message: 'register error',
-              error: err
-            })
-          })
-      }
-    })
-    .catch(err => {
-      res.status(404).send({
-        success: false,
-        error: err
-      })
-    })
-}
+	const { token, user } = req;
+	const { sellpoint, info } = req.body;
+	Sellpoint.findOne({
+		where: {
+			id: sellpoint,
+			owner: user.id
+		}
+	})
+		.then(sellpoint => {
+			if (sellpoint) {
+				sellpoint.createDevice({ info }).then(device => {
+					device.setOwner(user).then(() => {
+						res.status(200).send({
+							success: true,
+							message: 'device registered',
+							device
+						});
+					});
+				});
+			} else {
+				res.status(401).send({
+					success: false,
+					message: 'sellpoint not found'
+				});
+			}
+		})
+		.catch(error => {
+			res.status(401).send({
+				success: false,
+				message: 'device register error',
+				error
+			});
+		});
+};
+
+exports.receiveData = count => {
+	const { info, data } = count;
+	Device.findOne({ where: { info } })
+		.then(device => {
+			if (device) {
+				device.createCount({ info, data });
+				console.log('device found');
+			} else {
+				Count.create(count);
+				console.log('device not found');
+			}
+		})
+		.catch(error => {
+			console.log('error', error);
+		});
+};

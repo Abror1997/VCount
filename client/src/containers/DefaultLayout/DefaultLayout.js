@@ -48,6 +48,8 @@ class DefaultLayout extends Component {
 
   render() {
     console.log('DefaultLayout render', this.props)
+    console.log('DefaultLayout token', localStorage.getItem('token'))
+    
     return (
       <div className="app">
         <AppHeader fixed>
@@ -103,4 +105,4 @@ const mapDispatchToProps = dispatch => {
 
 DefaultLayout = connect(mapStateToProps, mapDispatchToProps)(DefaultLayout)
 
-export default withRouter(DefaultLayout);
+export default withRouter(DefaultLayout)

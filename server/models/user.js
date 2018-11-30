@@ -1,23 +1,33 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
+    info: {
+      type: DataTypes.JSONB,
       email: {
         type: DataTypes.STRING,
-        unique: true
+        unique: true,
+        allowNull: false
       },
-      password: DataTypes.STRING,
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       username: {
         type: DataTypes.STRING,
-        unique: true
+        allowNull: false
       },
-      phoneNumber: DataTypes.STRING,
+      phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+    }
   },
   {
     timestamps: true,
   });
 
-  User.association = (models) => {
-    User.belongsTo(models.Company, {
-      foreignKey: 'company'
+  User.associate = (models) => {
+    User.hasMany(models.Company, {
+      foreignKey: 'owner'
     })
   }
 
