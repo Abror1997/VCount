@@ -54,7 +54,7 @@ exports.register = (req, res) => {
 
 exports.delete = (req, res) => {
 	const { token, user } = req;
-	const { id, info } = req.body;
+	const { id } = req.query;
 	Sellpoint.find({ where: { id, owner: user.id } })
 		.then(sellpoint => {
 			sellpoint.destroy().then(result => {
@@ -70,4 +70,50 @@ exports.delete = (req, res) => {
 				error
 			});
 		});
+};
+
+exports.get = (req, res) => {
+	console.log('sellpoint get');
+	const { token, user } = req;
+	const { id, skip, limit, order } = req.query;
+
+	if (id) {
+		console.log('sellpoint get id', id);
+		Company.findOne({ where: { id, owner: user.id } })
+			.then(sellpoint => {
+				res.status(200).send({
+					success: true,
+					sellpoint
+				});
+			})
+			.catch(error => {
+				res.status(401).send({
+					success: false,
+					error
+				});
+			});
+	} else {
+		Sellpoint.findAll({ where: { owner: user.id } })
+			.then(sellpoint => {
+				res.status(200).send({
+					success: true,
+					sellpoint
+				});
+			})
+			.catch(error => {
+				res.status(401).send({
+					success: false,
+					error
+				});
+			});
+	}
+	if (skip) {
+		console.log('sellpoint get skip', skip);
+	}
+	if (limit) {
+		console.log('sellpoint get limit', limit);
+	}
+	if (order) {
+		console.log('sellpoint get order', order);
+	}
 };

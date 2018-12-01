@@ -32,7 +32,7 @@ exports.register = (req, res) => {
 
 exports.delete = (req, res) => {
 	const { token, user } = req;
-	const { id, info } = req.body;
+	const { id } = req.query;
 	Company.find({ where: { id, owner: user.id } })
 		.then(company => {
 			company.destroy().then(result => {
@@ -52,7 +52,7 @@ exports.delete = (req, res) => {
 
 exports.get = (req, res) => {
 	const { token, user } = req;
-	const { id } = req.query;
+	const { id, skip, limit, order } = req.query;
 	if (id) {
 		Company.findOne({ where: { id, owner: user.id } })
 			.then(company => {
