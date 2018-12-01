@@ -4,9 +4,7 @@ let sequelize = null;
 if (process.env.DATABASE_URL) {
 	sequelize = new Sequelize(process.env.DATABASE_URL, {
 		dialect: 'postgres',
-		protocol: 'postgres',
-		port: 5432,
-		host: 'vcount.herokuapp.com'
+		protocol: 'postgres'
 	});
 } else {
 	sequelize = new Sequelize('vcount', 'postgres', '123456789', {

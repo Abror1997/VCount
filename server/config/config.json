@@ -15,10 +15,7 @@
 	},
 	"production": {
 		"use_env_variable": "DATABASE_URL",
-		"username": "postgres",
-		"password": "postgres",
-		"database": "vcount",
-		"host": "localhost",
-		"dialect": "postgres"
+		"dialect": "postgres",
+		"protocol": "postgres"
 	}
 }
