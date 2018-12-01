@@ -4,14 +4,7 @@ const { User } = models;
 const { compareSync, hashSync, sign, verify } = require('../helpers/auth');
 
 exports.register = (req, res) => {
-	const { info } = req.body;
-	User.findOne({
-		where: {
-			info: {
-				email: info.email
-			}
-		}
-	})
+	User.findOne({ where: req.body })
 		.then(user => {
 			if (user) {
 				res.status(200).send({
@@ -19,8 +12,8 @@ exports.register = (req, res) => {
 					message: 'Email already exists'
 				});
 			} else {
-				const password = hashSync(info.password);
-				User.create({ info: { ...info, password } }).then(user => {
+				const password = hashSync(req.body.password);
+				User.create({ ...req.body, password }).then(user => {
 					const { id, username } = user;
 					res.status(200).send({
 						success: true,
