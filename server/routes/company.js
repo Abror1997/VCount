@@ -1,5 +1,6 @@
-const Company = require('../controllers/company');
+const controllers = require('../controllers');
 const auth = require('../middleware/auth');
+const { Company } = controllers;
 
 module.exports = app => {
 	app.post('/api/company/register', auth, Company.register);

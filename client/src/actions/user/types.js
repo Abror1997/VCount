@@ -1,9 +1,11 @@
-import login from './login/types'
-import register from './register/types'
-import auth from './auth/types'
+import login from './login/types';
+import logout from './logout/types';
+import register from './register/types';
+import auth from './auth/types';
 
 export default {
-  login,
-  register,
-  auth
-}
+	login,
+	logout,
+	register,
+	auth
+};

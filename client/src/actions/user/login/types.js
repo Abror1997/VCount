@@ -1,10 +1,9 @@
-
-const started = 'LOGIN_STARTED'
-const failure = 'LOGIN_FAILURE'
-const success = 'LOGIN_SUCCESS'
+const started = 'SIGNIN_STARTED';
+const failure = 'SIGNIN_FAILURE';
+const success = 'SIGNIN_SUCCESS';
 
 export default {
-  started,
-  failure,
-  success
-}
+	started,
+	failure,
+	success
+};

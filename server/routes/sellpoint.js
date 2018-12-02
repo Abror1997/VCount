@@ -1,5 +1,6 @@
-const Sellpoint = require('../controllers/sellpoint');
+const controllers = require('../controllers');
 const auth = require('../middleware/auth');
+const { Sellpoint } = controllers;
 
 module.exports = app => {
 	app.post('/api/sellpoint/register', auth, Sellpoint.register);

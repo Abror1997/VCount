@@ -5,9 +5,7 @@ const initialState = {
 	loading: false,
 	error: null,
 	data: {
-		id: undefined,
-		email: undefined,
-		username: undefined
+		isAuth: false
 	}
 };
 
@@ -28,17 +26,11 @@ export default (state = initialState, action) => {
 			};
 		}
 		case auth.success: {
-			const { id, email, username } = action.payload;
 			return {
 				...state,
 				loading: false,
 				error: null,
-				data: {
-					...state.data,
-					id,
-					email,
-					username
-				}
+				data: action.payload
 			};
 		}
 		default: {

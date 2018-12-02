@@ -16,8 +16,8 @@ import {
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
-import actions from '../../../actions';
 import { withRouter } from 'react-router-dom';
+import actions from '../../../actions';
 
 class Register extends Component {
 	state = {

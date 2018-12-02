@@ -1,5 +1,6 @@
-const User = require('../controllers/user');
 const auth = require('../middleware/auth');
+const controllers = require('../controllers');
+const { User } = controllers;
 
 module.exports = app => {
 	app.post('/api/user/register', User.register);
