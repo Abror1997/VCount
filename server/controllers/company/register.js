@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Company } = models;
 
-exports.register = (req, res) => {
+module.exports = (req, res) => {
 	const { token, user } = req;
 	const { info } = req.body;
 

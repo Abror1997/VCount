@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Sellpoint, Device } = models;
 
-exports.register = (req, res) => {
+module.exports = (req, res) => {
 	const { token, user } = req;
 	const { sellpoint, info } = req.body;
 	Sellpoint.findOne({

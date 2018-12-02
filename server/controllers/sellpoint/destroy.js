@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Sellpoint } = models;
 
-exports.destroy = (req, res) => {
+module.exports = (req, res) => {
 	const { token, user } = req;
 	const { id } = req.query;
 	Sellpoint.find({ where: { id, owner: user.id } })

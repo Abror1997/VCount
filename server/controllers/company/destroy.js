@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Company } = models;
 
-exports.destroy = (req, res) => {
+module.exports = (req, res) => {
 	const { token, user } = req;
 	const { id } = req.query;
 	Company.find({ where: { id, owner: user.id } })

@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { User } = models;
 
-const { hashSync } = require('../../helpers');
+const { hashSync } = require('../../helpers/auth');
 
 module.exports = (req, res) => {
 	User.findOne({ where: { email: req.body.email } })

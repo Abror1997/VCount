@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Device } = models;
 
-exports.destroy = (req, res) => {
+module.exports = (req, res) => {
 	const { token, user } = req;
 	const { id } = req.query;
 	Device.find({ where: { info: { id }, owner: user.id } })

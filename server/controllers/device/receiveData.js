@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Device, Count } = models;
 
-exports.receiveData = count => {
+module.exports = count => {
 	const { info, data } = count;
 	Device.findOne({ where: { info } })
 		.then(device => {

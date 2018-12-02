@@ -1,7 +1,7 @@
 const models = require('../../models');
 const { Company } = models;
 
-exports.get = (req, res) => {
+module.exports = (req, res) => {
 	const { token, user } = req;
 	const { id, skip, limit, order } = req.query;
 	if (id) {
