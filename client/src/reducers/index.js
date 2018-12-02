@@ -1,9 +1,13 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux';
 
-import {login, register, auth} from './user'
+import { login, register, auth } from './user';
+
+const user = combineReducers({
+	login,
+	register,
+	auth
+});
 
 export default combineReducers({
-  login,
-  register,
-  auth
-})
+	user
+});

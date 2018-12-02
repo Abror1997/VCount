@@ -1,18 +1,16 @@
 import types from './types';
-
+import { getToken } from '../../';
 import axios from 'axios';
 
 export default data => {
 	return dispatch => {
 		dispatch(started());
 
-		const token = localStorage.getItem('token');
-
 		axios
-			.post('/api/company/register', data, {
+			.post('http://localhost:3001/api/company/register', data, {
 				headers: {
 					'Content-Type': 'application/json',
-					auth: token
+					auth: getToken()
 				}
 			})
 			.then(response => {

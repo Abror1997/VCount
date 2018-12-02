@@ -68,7 +68,12 @@ exports.get = (req, res) => {
 				});
 			});
 	} else {
-		Company.findAll({ where: { owner: user.id } })
+		Company.findAll({
+			where: { owner: user.id },
+			offset: skip,
+			limit,
+			order: [['id', order]]
+		})
 			.then(company => {
 				res.status(200).send({
 					success: true,

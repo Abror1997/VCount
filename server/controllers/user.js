@@ -4,7 +4,7 @@ const { User } = models;
 const { compareSync, hashSync, sign, verify } = require('../helpers/auth');
 
 exports.register = (req, res) => {
-	User.findOne({ where: req.body })
+	User.findOne({ where: { email: req.body.email } })
 		.then(user => {
 			if (user) {
 				res.status(200).send({
@@ -33,15 +33,7 @@ exports.register = (req, res) => {
 };
 
 exports.login = (req, res) => {
-	const { info } = req.body;
-	console.log('user login', info);
-	User.findOne({
-		where: {
-			info: {
-				username: info.username
-			}
-		}
-	})
+	User.findOne({ where: { username: req.body.username } })
 		.then(user => {
 			if (!user) {
 				res
@@ -52,19 +44,19 @@ exports.login = (req, res) => {
 					})
 					.end();
 			}
-			const passwordIsValid = compareSync(info.password, user.info.password);
+			const passwordIsValid = compareSync(req.body.password, user.password);
 			if (!passwordIsValid) {
 				res
 					.status(200)
 					.send({
-						isAuth: false,
+						success: false,
 						message: 'Password is incorrect'
 					})
 					.end();
 			}
 			const token = sign(user.id);
 			res.status(200).send({
-				isAuth: true,
+				success: true,
 				token
 			});
 		})
@@ -80,8 +72,45 @@ exports.login = (req, res) => {
 exports.auth = (req, res) => {
 	const { user } = req;
 	res.status(200).send({
-		isAuth: true,
+		success: true,
 		id: user.id,
 		username: user.username
 	});
+};
+
+exports.get = (req, res) => {
+	const { id, skip, limit, order } = req.query;
+	if (id) {
+		User.findOne({ where: { id } })
+			.then(user => {
+				res.status(200).send({
+					success: true,
+					user
+				});
+			})
+			.catch(error => {
+				res.status(401).send({
+					success: false,
+					error
+				});
+			});
+	} else {
+		User.findAll({
+			offset: skip,
+			limit,
+			order: [['id', order]]
+		})
+			.then(user => {
+				res.status(200).send({
+					success: true,
+					user
+				});
+			})
+			.catch(error => {
+				res.status(401).send({
+					success: false,
+					error
+				});
+			});
+	}
 };

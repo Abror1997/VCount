@@ -51,12 +51,10 @@ exports.register = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-	console.log('device delete');
 	const { token, user } = req;
 	const { id } = req.query;
 	Device.find({ where: { info: { id }, owner: user.id } })
 		.then(device => {
-			console.log('device', device);
 			device.destroy().then(result => {
 				res.status(200).send({
 					success: true,
@@ -73,12 +71,9 @@ exports.delete = (req, res) => {
 };
 
 exports.get = (req, res) => {
-	console.log('device get');
 	const { token, user } = req;
 	const { id, skip, limit, order } = req.query;
-
 	if (id) {
-		console.log('device get id', id);
 		Device.findOne({ where: { id, owner: user.id } })
 			.then(device => {
 				res.status(200).send({
@@ -93,7 +88,12 @@ exports.get = (req, res) => {
 				});
 			});
 	} else {
-		Device.findAll({ where: { owner: user.id } })
+		Device.findAll({
+			where: { owner: user.id },
+			offset: skip,
+			limit,
+			order: [['id', order]]
+		})
 			.then(device => {
 				res.status(200).send({
 					success: true,
@@ -115,13 +115,11 @@ exports.receiveData = count => {
 		.then(device => {
 			if (device) {
 				device.createCount({ info, data });
-				console.log('device found');
 			} else {
 				Count.create(count);
-				console.log('device not found');
 			}
 		})
 		.catch(error => {
-			console.log('error', error);
+			console.log('device receiveCount error', error);
 		});
 };

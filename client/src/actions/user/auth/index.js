@@ -1,6 +1,6 @@
 import types from './types';
 import config from '../../config';
-
+import { getToken } from '../../';
 import axios from 'axios';
 
 export default token => {
@@ -8,14 +8,13 @@ export default token => {
 		dispatch(started());
 
 		axios
-			.get('/api/user/auth', {
+			.get('http://localhost:3001/api/user/auth', {
 				headers: {
 					...config.headers,
-					auth: token
+					auth: getToken()
 				}
 			})
 			.then(response => {
-				console.log('auth response', response.data);
 				if (response.data.success) dispatch(success(response));
 				else dispatch(failure(response.data));
 			})
