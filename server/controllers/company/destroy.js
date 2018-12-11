@@ -6,10 +6,9 @@ module.exports = (req, res) => {
 	const { id } = req.query;
 	Company.find({ where: { id, owner: user.id } })
 		.then(company => {
-			company.destroy().then(result => {
+			company.destroy().then(() => {
 				res.status(200).send({
-					success: true,
-					result
+					success: true
 				});
 			});
 		})

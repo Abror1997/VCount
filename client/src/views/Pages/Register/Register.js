@@ -147,7 +147,7 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => {
-	const { loading, error, data } = state.register;
+	const { loading, error, data } = state.user.register;
 	return {
 		loading,
 		error,

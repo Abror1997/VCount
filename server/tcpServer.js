@@ -4,12 +4,16 @@ const Device = require('./controllers/device');
 const { checkJSON } = require('./helpers/validation');
 
 const server = net.createServer(socket => {
-	socket.write('connected\n');
+	// socket.write('connected\n');
 
 	const { localAddress, localPort, remoteAddress, remotePort } = socket;
 
 	console.log('server: address, port', localAddress, localPort);
 	console.log('client: address, port', remoteAddress, remotePort);
+
+	socket.on('connect', () => {
+		socket.write('connected\n');
+	});
 
 	socket.on('data', data => {
 		let response = undefined;

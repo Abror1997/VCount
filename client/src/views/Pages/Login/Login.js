@@ -42,12 +42,13 @@ class Login extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.data.isAuth) {
+		if (nextProps.data.token) {
 			this.props.history.push(`/dashboard`);
 		}
 	}
 
 	render() {
+		console.log('LOGIN', this.props);
 		return (
 			<div className='app flex-row align-items-center'>
 				<Container>

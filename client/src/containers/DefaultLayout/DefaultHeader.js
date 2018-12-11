@@ -11,6 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import actions from '../../actions';
 
 import {
 	AppAsideToggler,
@@ -122,7 +123,7 @@ class DefaultHeader extends Component {
 							</DropdownItem>
 							<DropdownItem
 								onClick={() => {
-									localStorage.removeItem('auth');
+									this.props.logout();
 								}}
 							>
 								<i className='fa fa-lock' /> Logout
@@ -140,4 +141,19 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-export default withRouter(connect()(DefaultHeader));
+const mapStateToProps = state => {
+	return {};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		logout: () => dispatch(actions.user.logout())
+	};
+};
+
+DefaultHeader = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(DefaultHeader);
+
+export default withRouter(DefaultHeader);

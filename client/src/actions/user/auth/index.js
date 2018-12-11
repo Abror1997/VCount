@@ -15,8 +15,8 @@ export default token => {
 				}
 			})
 			.then(response => {
-				if (response.data.success) dispatch(success(response));
-				else dispatch(failure(response.data));
+				if (response.data.success) dispatch(success(true));
+				else dispatch(success(false));
 			})
 			.catch(error => {
 				dispatch(failure(error));
@@ -28,9 +28,11 @@ const started = () => ({
 	type: types.started
 });
 
-const success = response => ({
+const success = isAuth => ({
 	type: types.success,
-	payload: response.data
+	payload: {
+		isAuth
+	}
 });
 
 const failure = error => ({

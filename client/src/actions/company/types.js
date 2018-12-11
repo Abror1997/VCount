@@ -1,5 +1,7 @@
-import register from './register/types'
+// import register from './register/types';
+import get from './get/types';
 
 export default {
-  register
-}
+	// register,
+	get
+};

@@ -21,7 +21,7 @@ export default data => {
 				}
 			)
 			.then(response => {
-				if (response.data.isAuth) {
+				if (response.data.success) {
 					setToken(response.data.token);
 					dispatch(success(response));
 				} else dispatch(failure(response.data));

@@ -102,7 +102,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		auth: token => dispatch(actions.user.auth(token))
+		auth: () => dispatch(actions.user.auth())
 	};
 };
 

@@ -1,7 +1,11 @@
-import user from './user/types'
-import company from './company/types'
+import user from './user/types';
+import company from './company/types';
+import sellpoint from './sellpoint/types';
+// import device from './device/types';
 
 export default {
-  user,
-  company
-}
+	user,
+	company,
+	sellpoint
+	// device
+};

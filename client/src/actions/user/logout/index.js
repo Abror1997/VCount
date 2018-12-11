@@ -4,7 +4,7 @@ import { removeToken } from '../../';
 export default () => {
 	removeToken();
 	return {
-		type: types.signout,
+		type: types.success,
 		payload: {
 			token: undefined
 		}

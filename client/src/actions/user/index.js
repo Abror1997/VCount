@@ -1,9 +1,11 @@
-import login from './login'
-import register from './register'
-import auth from './auth'
+import login from './login';
+import logout from './logout';
+import register from './register';
+import auth from './auth';
 
 export default {
-  login,
-  register,
-  auth
-}
+	login,
+	logout,
+	register,
+	auth
+};

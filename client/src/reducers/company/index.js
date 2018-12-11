@@ -1,1 +1,7 @@
-import types from '../../actions/types';
+import { combineReducers } from 'redux';
+
+import get from './get';
+
+export default combineReducers({
+	get
+});

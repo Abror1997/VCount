@@ -6,10 +6,10 @@ module.exports = (req, res) => {
 	const { id, skip, limit, order } = req.query;
 	if (id) {
 		Sellpoint.findOne({ where: { id, owner: user.id } })
-			.then(sellpoint => {
+			.then(result => {
 				res.status(200).send({
 					success: true,
-					sellpoint
+					result
 				});
 			})
 			.catch(error => {
@@ -25,10 +25,10 @@ module.exports = (req, res) => {
 			limit,
 			order: [['id', order]]
 		})
-			.then(sellpoint => {
+			.then(result => {
 				res.status(200).send({
 					success: true,
-					sellpoint
+					result
 				});
 			})
 			.catch(error => {

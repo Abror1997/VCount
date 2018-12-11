@@ -21,7 +21,7 @@ require('./routes')(app);
 const server = http.Server(app);
 
 const listen = port => {
-	models.sequelize.sync({ force: true }).then(() => {
+	models.sequelize.sync().then(() => {
 		server.listen(port, () => {
 			console.log('http server is running on port', port);
 		});

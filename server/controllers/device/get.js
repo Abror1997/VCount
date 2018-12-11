@@ -6,10 +6,10 @@ module.exports = (req, res) => {
 	const { id, skip, limit, order } = req.query;
 	if (id) {
 		Device.findOne({ where: { id, owner: user.id } })
-			.then(device => {
+			.then(result => {
 				res.status(200).send({
 					success: true,
-					device
+					result
 				});
 			})
 			.catch(error => {
@@ -25,10 +25,10 @@ module.exports = (req, res) => {
 			limit,
 			order: [['id', order]]
 		})
-			.then(device => {
+			.then(result => {
 				res.status(200).send({
 					success: true,
-					device
+					result
 				});
 			})
 			.catch(error => {

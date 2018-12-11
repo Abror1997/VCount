@@ -26,6 +26,7 @@ export default (state = initialState, action) => {
 			};
 		}
 		case auth.success: {
+			console.log('auth success', action.payload);
 			return {
 				...state,
 				loading: false,

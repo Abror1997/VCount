@@ -3,16 +3,22 @@ import { getToken } from '../../';
 import axios from 'axios';
 
 export default data => {
+	const { name } = data;
+
 	return dispatch => {
 		dispatch(started());
 
 		axios
-			.post('http://localhost:3001/api/company/register', data, {
-				headers: {
-					'Content-Type': 'application/json',
-					auth: getToken()
+			.post(
+				'http://localhost:3001/api/company/register',
+				{ info: { name } },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						auth: getToken()
+					}
 				}
-			})
+			)
 			.then(response => {
 				if (response.data.success) dispatch(success(response));
 				else dispatch(failure(response.data));
