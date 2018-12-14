@@ -3,9 +3,9 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container, Button } from 'reactstrap';
 
 import { connect } from 'react-redux';
-import actions, { getToken } from '../../actions';
-
-import { withRouter } from 'react-router-dom';
+// import actions, { getToken } from '../../actions';
+// import { withRouter } from 'react-router-dom';
+import { Routines } from 'common/api';
 
 import {
 	AppAside,
@@ -29,13 +29,8 @@ import DefaultHeader from './DefaultHeader';
 
 class DefaultLayout extends Component {
 	componentWillMount() {
-		// this.props.auth(this.props.token)
 		console.log('DefaultLayout componentWillMount', this.props);
-		if (!getToken()) {
-			this.props.history.push('/login');
-		} else {
-			return <Redirect from='/' to='/dashboard' />;
-		}
+		Routines.user.auth(null, this.props.dispatch);
 	}
 
 	componentDidMount() {
@@ -43,7 +38,22 @@ class DefaultLayout extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log('DefaultLayout componentWillReceiveProps', nextProps);
+		const { loading, success } = nextProps.auth;
+		console.log(
+			'DefaultLayout componentWillReceiveProps',
+			this.props,
+			nextProps
+		);
+		if (loading) {
+			console.log('Loading');
+		} else {
+			if (success) {
+				console.log('auth success');
+			} else {
+				console.log('auth failed');
+				this.props.history.push('/login');
+			}
+		}
 	}
 
 	render() {
@@ -94,21 +104,19 @@ class DefaultLayout extends Component {
 }
 
 const mapStateToProps = state => {
+	const { login, auth } = state.user;
 	return {
-		token: state.user.login.data.token,
-		user: state.user.auth.data
+		login,
+		auth
 	};
 };
 
-const mapDispatchToProps = dispatch => {
-	return {
-		auth: () => dispatch(actions.user.auth())
-	};
-};
+// const mapDispatchToProps = dispatch => {
+// 	return {
+// 		auth: () => dispatch(actions.user.auth())
+// 	};
+// };
 
-DefaultLayout = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(DefaultLayout);
+DefaultLayout = connect(mapStateToProps)(DefaultLayout);
 
-export default withRouter(DefaultLayout);
+export default DefaultLayout;

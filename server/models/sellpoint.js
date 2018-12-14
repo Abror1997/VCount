@@ -2,20 +2,17 @@ module.exports = (sequelize, DataTypes) => {
 	const Sellpoint = sequelize.define(
 		'sellpoint',
 		{
-			info: {
-				type: DataTypes.JSONB,
-				name: {
-					type: DataTypes.STRING,
-					allowNull: false
-				},
-				address: {
-					type: DataTypes.STRING,
-					allowNull: false
-				},
-				phoneNumber: {
-					type: DataTypes.STRING,
-					allowNull: false
-				}
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false
+			},
+			address: {
+				type: DataTypes.STRING,
+				allowNull: false
+			},
+			phoneNumber: {
+				type: DataTypes.STRING,
+				allowNull: false
 			}
 		},
 		{

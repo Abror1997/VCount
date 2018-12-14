@@ -16,8 +16,9 @@ import {
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import actions from '../../../actions';
+// import { withRouter } from 'react-router-dom';
+// import actions from '../../../actions';
+import { Routines } from 'common/api';
 
 class Register extends Component {
 	state = {
@@ -32,14 +33,23 @@ class Register extends Component {
 	}
 
 	createHandler = () => {
-		this.props.register(this.state);
+		const { username, email, password } = this.state;
+		Routines.user.register(
+			{
+				request: {
+					username,
+					email,
+					password
+				}
+			},
+			this.props.dispatch
+		);
 	};
 
 	componentWillReceiveProps(nextProps) {
-		const data = nextProps.data;
-		if (data.id) {
+		const { success, data } = nextProps;
+		if (success) {
 			this.props.history.push('/login', {
-				id: data.id,
 				username: data.username
 			});
 		}
@@ -147,23 +157,20 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => {
-	const { loading, error, data } = state.user.register;
+	const { loading, success, data } = state.user.register;
 	return {
 		loading,
-		error,
+		success,
 		data
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		register: data => dispatch(actions.user.register(data))
+		// register: data => dispatch(actions.user.register(data))
 	};
 };
 
-Register = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Register);
+Register = connect(mapStateToProps)(Register);
 
-export default withRouter(Register);
+export default Register;

@@ -2,20 +2,17 @@ module.exports = (sequelize, DataTypes) => {
 	const Company = sequelize.define(
 		'company',
 		{
-			info: {
-				type: DataTypes.JSONB,
-				name: {
-					type: DataTypes.STRING,
-					allowNull: false
-				},
-				address: {
-					type: DataTypes.STRING,
-					allowNull: false
-				},
-				phoneNumber: {
-					type: DataTypes.STRING,
-					allowNull: false
-				}
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false
+			},
+			address: {
+				type: DataTypes.STRING,
+				allowNull: false
+			},
+			phoneNumber: {
+				type: DataTypes.STRING,
+				allowNull: false
 			}
 		},
 		{
@@ -26,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
 	Company.associate = models => {
 		Company.hasMany(models.Sellpoint, {
 			foreignKey: 'company'
+		});
+		Company.belongsTo(models.User, {
+			as: 'Owner',
+			foreignKey: 'owner'
 		});
 	};
 

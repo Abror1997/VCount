@@ -2,18 +2,15 @@ module.exports = (sequelize, DataTypes) => {
 	const Device = sequelize.define(
 		'device',
 		{
-			info: {
-				type: DataTypes.JSONB,
-				id: {
-					type: DataTypes.INTEGER,
-					unique: true,
-					allowNull: true
-				},
-				status: {
-					type: DataTypes.ENUM,
-					values: ['inactive', 'active', 'pending', 'banned'],
-					allowNull: false
-				}
+			deviceId: {
+				type: DataTypes.INTEGER,
+				unique: true,
+				allowNull: true
+			},
+			status: {
+				type: DataTypes.ENUM,
+				values: ['inactive', 'active', 'pending', 'banned'],
+				allowNull: false
 			}
 		},
 		{

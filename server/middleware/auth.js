@@ -10,9 +10,8 @@ module.exports = (req, res, next) => {
 			User.findById(decode)
 				.then(user => {
 					if (!user) {
-						return res.status(401).send({
-							error: true,
-							message: 'auth: user not found'
+						return res.status(404).send({
+							message: 'Auth failed. User not found'
 						});
 					}
 					req.token = token;
@@ -20,13 +19,14 @@ module.exports = (req, res, next) => {
 					next();
 				})
 				.catch(error => {
-					throw error;
+					res.status(500).send({
+						message: 'Token verification failed'
+					});
 				});
 		});
 	} else {
-		return res.status(401).send({
-			success: false,
-			message: 'token not found'
+		return res.status(404).send({
+			message: 'Token not found'
 		});
 	}
 };

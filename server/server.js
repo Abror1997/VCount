@@ -1,10 +1,5 @@
-const httpServer = require('./httpServer');
-const tcpServer = require('./tcpServer');
+const http = require('./http');
+const tcp = require('./tcp');
 
-httpServer.connect();
-tcpServer.connect();
-
-const port = process.env.PORT || 3001;
-
-httpServer.listen(port);
-tcpServer.listen(8080);
+http.listen(3001);
+tcp.listen(80);

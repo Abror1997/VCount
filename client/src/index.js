@@ -7,29 +7,19 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
+import createStore from './common/createStore';
+import { Provider } from 'react-redux';
 
-const persistConfig = {
-	key: 'root',
-	storage,
-	blacklist: ['login']
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-let store = createStore(persistedReducer, applyMiddleware(thunk));
-let persistor = persistStore(store);
+const { store, history, persistor } = createStore();
 
 ReactDOM.render(
 	<Provider store={store}>
-		<PersistGate persistor={persistor}>
-			<App />
+		<PersistGate loading={null} persistor={persistor}>
+			<ConnectedRouter history={history}>
+				<App />
+			</ConnectedRouter>
 		</PersistGate>
 	</Provider>,
 	document.getElementById('root')

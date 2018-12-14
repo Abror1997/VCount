@@ -15,8 +15,9 @@ import {
 } from 'reactstrap';
 
 import { connect } from 'react-redux';
-import actions from '../../../actions';
-import { withRouter } from 'react-router-dom';
+// import actions from '../../../actions';
+// import { withRouter } from 'react-router-dom';
+import { Routines } from 'common/api';
 
 class Login extends Component {
 	state = {
@@ -25,7 +26,16 @@ class Login extends Component {
 	};
 
 	loginHandler = () => {
-		this.props.login(this.state);
+		const { username, password } = this.state;
+		Routines.user.login(
+			{
+				request: {
+					username,
+					password
+				}
+			},
+			this.props.dispatch
+		);
 	};
 
 	handleInputChange = (value, type) => {
@@ -42,13 +52,13 @@ class Login extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.data.token) {
-			this.props.history.push(`/dashboard`);
+		if (nextProps.login.success) {
+			this.props.history.push('/');
 		}
 	}
 
 	render() {
-		console.log('LOGIN', this.props);
+		console.log('Login render', this.props);
 		return (
 			<div className='app flex-row align-items-center'>
 				<Container>
@@ -147,22 +157,18 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
+	const { login } = state.user;
 	return {
-		loading: state.user.login.loading,
-		error: state.user.login.error,
-		data: state.user.login.data
+		login
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		login: data => dispatch(actions.user.login(data))
+		// login: data => dispatch(actions.user.login(data))
 	};
 };
 
-Login = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Login);
+Login = connect(mapStateToProps)(Login);
 
-export default withRouter(Login);
+export default Login;

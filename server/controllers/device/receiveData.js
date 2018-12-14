@@ -2,11 +2,10 @@ const models = require('../../models');
 const { Device, Count } = models;
 
 module.exports = count => {
-	const { info, data } = count;
-	Device.findOne({ where: { info } })
+	Device.findOne({ where: { info: { id: count.deviceId } } })
 		.then(device => {
 			if (device) {
-				device.createCount({ info, data });
+				device.createCount(count);
 			} else {
 				Count.create(count);
 			}
